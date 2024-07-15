@@ -41,7 +41,7 @@ public class AuthorService {
     return author.getArticles();
   }
 
-  private String changeNickname(String oldNickname, String newNickname) {
+  public String changeNickname(String oldNickname, String newNickname) {
     Author author = getAuthorByNickname(oldNickname);
     author.setNickname(newNickname);
     return String.format(CHANGE_NICKNAME,newNickname);

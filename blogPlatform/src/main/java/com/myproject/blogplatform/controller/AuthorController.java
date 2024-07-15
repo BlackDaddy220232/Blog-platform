@@ -15,14 +15,14 @@ public class AuthorController {
     }
     @DeleteMapping("/deleteAuthor")
     public ResponseEntity<Object> deleteAuthor(@RequestParam String nickname) {
-        return ResponseEntity.ok(deleteAuthor(nickname));
+        return ResponseEntity.ok(authorService.deleteAuthor(nickname));
     }
     @GetMapping("/getAuthorArticles")
     public ResponseEntity<Object> getAuthorsArticles(@RequestParam String nickname){
-        return ResponseEntity.ok(getAuthorsArticles(nickname));
+        return ResponseEntity.ok(authorService.getArticlesByAuthor(nickname));
     }
     @GetMapping("/changeNickname")
     public ResponseEntity<Object> changeNickname(@RequestParam String oldNickname, String newNickname){
-        return ResponseEntity.ok(changeNickname(oldNickname,newNickname));
+        return ResponseEntity.ok(authorService.changeNickname(oldNickname, newNickname));
     }
 }
