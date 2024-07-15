@@ -1,6 +1,6 @@
 package com.myproject.blogplatform.exception;
 
-import com.myproject.blogplatform.model.entity.dto.ResponseError;
+import com.myproject.blogplatform.model.dto.ResponseError;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

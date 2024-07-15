@@ -9,5 +9,6 @@ import java.util.Optional;
 public interface ArticleRepository extends JpaRepository<Article,Long> {
     Optional<Article> findArticleByTitle(String article);
 
+    Boolean existsArticleByTitle(String article);
 
 }
