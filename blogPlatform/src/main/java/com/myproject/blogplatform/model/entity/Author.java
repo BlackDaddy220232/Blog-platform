@@ -1,7 +1,6 @@
 package com.myproject.blogplatform.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.myproject.blogplatform.model.entity.Article;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,7 +26,7 @@ public class Author {
   @OneToMany(
       mappedBy = "author",
       fetch = FetchType.EAGER,
-      cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
+      cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REMOVE})
   @JsonIgnore
   private List<Article> articles;
 

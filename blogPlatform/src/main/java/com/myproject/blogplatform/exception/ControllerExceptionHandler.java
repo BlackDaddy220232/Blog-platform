@@ -1,6 +1,7 @@
 package com.myproject.blogplatform.exception;
 
 import com.myproject.blogplatform.model.dto.ResponseError;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,10 +19,10 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @Slf4j
 public class ControllerExceptionHandler {
 
-    @ExceptionHandler({HttpClientErrorException.class})
+    @ExceptionHandler({HttpClientErrorException.class, MissingServletRequestParameterException.class, IllegalArgumentException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseError handleIllegalArgumentException(
-            HttpClientErrorException ex, WebRequest request) {
+            Exception ex, WebRequest request) {
         log.error("Error 400: Bad Request");
         return new ResponseError(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
@@ -50,6 +51,12 @@ public class ControllerExceptionHandler {
     public ResponseError handleAllExceptions(RuntimeException ex, WebRequest request) {
         log.error("Error 500: Internal Server Error");
         return new ResponseError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+    }
+    @ExceptionHandler({ArticleTakenException.class,AuthorTakenException.class})
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseError handleConflictExceptions(Exception ex, WebRequest request){
+        log.error("Error 409: Conflict");
+        return new ResponseError(HttpStatus.CONFLICT, ex.getMessage());
     }
 }
 

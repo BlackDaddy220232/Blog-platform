@@ -27,17 +27,17 @@ public class AuthorController {
     public ResponseEntity<Object> getAuthorsArticles(@RequestParam String nickname){
         return ResponseEntity.ok(authorService.getArticlesByAuthor(nickname));
     }
-    @GetMapping("/changeNickname")
+    @PatchMapping("/changeNickname")
     public ResponseEntity<Object> changeNickname(@RequestParam String oldNickname, String newNickname){
         return ResponseEntity.ok(authorService.changeNickname(oldNickname, newNickname));
     }
     @PostMapping("/createArticle")
     public ResponseEntity<Object> createArticle(@RequestParam String nickname, String title){
-        return ResponseEntity.ok(authorService.createAtricle(title,nickname));
+        return ResponseEntity.ok(authorService.createArticle(title,nickname));
     }
     @DeleteMapping("/deleteArticle")
     public ResponseEntity<Object> deleteArticle(@RequestParam String nickname,String title){
-        return ResponseEntity.ok(authorService.deleteArticle(nickname, title));
+        return ResponseEntity.ok(authorService.deleteArticle(title, nickname));
     }
     @PatchMapping("/changeArticle")
     public ResponseEntity<Object> changeTitle(@RequestParam String nickname, String oldTitle, String newTitle){
