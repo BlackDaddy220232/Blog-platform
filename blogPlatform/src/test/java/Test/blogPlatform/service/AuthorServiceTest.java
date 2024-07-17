@@ -9,13 +9,11 @@ import com.myproject.blogplatform.exception.AuthorTakenException;
 import com.myproject.blogplatform.model.entity.Article;
 import com.myproject.blogplatform.model.entity.Author;
 import com.myproject.blogplatform.service.AuthorService;
-import org.aspectj.weaver.ast.Not;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
