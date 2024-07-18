@@ -10,7 +10,7 @@ Blog platform is a simple web application that allows you to manage authors and 
 
 This project is integrated with the Sonor Cloud platform, which provides advanced code analysis and quality assurance tools to help us deliver high-quality, maintainable code.
 
-[Link]([https://sonarcloud.io/project/overview?id=BlackDaddy220232_blog-platform](https://sonarcloud.io/summary/overall?id=BlackDaddy220232_blog-platform)) to Sonar;
+[Link]([https://sonarcloud.io/project/overview?id=BlackDaddy220232_blog-platform](https://sonarcloud.io/summary/overall?id=BlackDaddy220232_blog-platform) to Sonar;
 
 ## API Reference
 To interact with the "BlogPlatform" application's RESTful API endpoints, you can use the Postman request by this [link](https://www.postman.com/material-saganist-75818563/workspace/blog-platform/collection/33191456-0c709e2f-bc90-44a4-94b9-b5cb680995df?action=share&creator=33191456). Tap ```create a fork``` and use Postman for doing request.
