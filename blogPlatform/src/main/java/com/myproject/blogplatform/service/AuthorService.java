@@ -48,7 +48,8 @@ public class AuthorService {
    *
    * @param nickname The nickname of the new author.
    * @return A success message indicating the author was created successfully.
-   * @throws AuthorNotFoundException If the author with the given nickname already exists.
+   * @throws AuthorTakenException If the author with the given nickname already exists.
+   * @throws IllegalArgumentException if the nickname is empty.
    */
   public String createAuthor(String nickname) {
     if (Boolean.TRUE.equals(authorRepository.existsAuthorByNickname(nickname))) {
@@ -95,6 +96,7 @@ public class AuthorService {
    * @param newNickname The new nickname to be assigned to the author.
    * @return A success message indicating the nickname was changed successfully.
    * @throws AuthorNotFoundException If the new nickname already exists.
+   * @throws IllegalArgumentException If the new nickname is empty.
    */
   public String changeNickname(String oldNickname, String newNickname) {
     if (Boolean.TRUE.equals(newNickname.isEmpty())) {
@@ -134,6 +136,7 @@ public class AuthorService {
    * @param nickname The nickname of the author to whom the article will be associated.
    * @return A success message indicating the article was created successfully.
    * @throws ArticleTakenException If the article with the given title already exists.
+   * @throws IllegalArgumentException If title of article is empty.
    */
   public String createArticle(String title, String nickname) {
     Author author = getAuthorByNickname(nickname);
@@ -183,6 +186,7 @@ public class AuthorService {
    * @return A success message indicating the article was renamed successfully.
    * @throws ArticleNotFoundException If the article with the given old title does not exist, or if
    *     the new title already exists.
+   * @throws ArticleTakenException If article is taken and not available
    */
   public String changeArticlesTitle(String nickname, String oldTitle, String newTitle) {
     Author author = getAuthorByNickname(nickname);
