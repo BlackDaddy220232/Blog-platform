@@ -99,11 +99,15 @@ PATCH /authors/changeArticle?nickname=${nickname}&oldTitle=${oldTitle}&newTitle=
 
 ### 2. Automical Installation
 
-#### 1. Launch ```Setup.bat``` with Command Line
+#### 1. Navigate into the cloned directory
 ```bash
-...\blog-platform\blogPlatform\Setup.bat
+cd blog-platform\blogPlatform
 ```
-#### 2. Input your PostgreSQL ``username`` and ``password`` and enjoy!
+#### 2. Launch ```Setup.bat```
+```bash
+Setup.bat
+```
+#### 3. Input your PostgreSQL ``username`` and ``password`` and enjoy!
 
 ### 2. Manual Installation
 
@@ -114,7 +118,7 @@ PATCH /authors/changeArticle?nickname=${nickname}&oldTitle=${oldTitle}&newTitle=
 
 #### 4. Navigate to the project directory
 ```bash
-\blog-platform\blogPlatform
+cd \blog-platform\blogPlatform
 ```
 #### 5. Execute the Maven command to clean the project and then build it
 ```bash
