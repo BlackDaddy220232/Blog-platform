@@ -11,17 +11,19 @@ import java.util.List;
 @Service
 @Transactional
 public class ArticleService {
-    private ArticleRepository articleRepository;
-    @Autowired
-    public void setArticleRepository(ArticleRepository articleRepository) {
-        this.articleRepository = articleRepository;
-    }
-    /**
-     * This method retrieves all the articles stored in the article repository.
-     *
-     * @return a list of all the articles
-     */
-    public List<Article> getAllArticles(){
-        return articleRepository.findAll();
-    }
+  private ArticleRepository articleRepository;
+
+  @Autowired
+  public void setArticleRepository(ArticleRepository articleRepository) {
+    this.articleRepository = articleRepository;
+  }
+
+  /**
+   * This method retrieves all the articles stored in the article repository.
+   *
+   * @return a list of all the articles
+   */
+  public List<Article> getAllArticles() {
+    return articleRepository.findAll();
+  }
 }

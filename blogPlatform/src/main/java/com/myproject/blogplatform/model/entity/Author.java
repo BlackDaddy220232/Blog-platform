@@ -26,13 +26,20 @@ public class Author {
   @OneToMany(
       mappedBy = "author",
       fetch = FetchType.EAGER,
-      cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REMOVE})
+      cascade = {
+        CascadeType.DETACH,
+        CascadeType.REFRESH,
+        CascadeType.MERGE,
+        CascadeType.PERSIST,
+        CascadeType.REMOVE
+      })
   @JsonIgnore
   private List<Article> articles;
 
   public Article getArticleByTitle(String title) {
     return articles.stream().filter(p -> p.getTitle().equals(title)).findFirst().orElse(null);
   }
+
   public void addArticle(Article article) {
     articles.add(article);
   }
