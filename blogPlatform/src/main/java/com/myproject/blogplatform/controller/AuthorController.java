@@ -32,23 +32,23 @@ public class AuthorController {
 
   @PatchMapping("/changeNickname")
   public ResponseEntity<Object> changeNickname(
-      @RequestParam String oldNickname, String newNickname) {
+      @RequestParam String oldNickname, @RequestParam String newNickname) {
     return ResponseEntity.ok(authorService.changeNickname(oldNickname, newNickname));
   }
 
   @PostMapping("/createArticle")
-  public ResponseEntity<Object> createArticle(@RequestParam String nickname, String title) {
+  public ResponseEntity<Object> createArticle(@RequestParam String nickname, @RequestParam String title) {
     return ResponseEntity.ok(authorService.createArticle(title, nickname));
   }
 
   @DeleteMapping("/deleteArticle")
-  public ResponseEntity<Object> deleteArticle(@RequestParam String nickname, String title) {
+  public ResponseEntity<Object> deleteArticle(@RequestParam String nickname, @RequestParam String title) {
     return ResponseEntity.ok(authorService.deleteArticle(title, nickname));
   }
 
   @PatchMapping("/changeArticle")
   public ResponseEntity<Object> changeTitle(
-      @RequestParam String nickname, String oldTitle, String newTitle) {
+      @RequestParam String nickname, @RequestParam String oldTitle, @RequestParam String newTitle) {
     return ResponseEntity.ok(authorService.changeArticlesTitle(nickname, oldTitle, newTitle));
   }
 }
