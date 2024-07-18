@@ -129,6 +129,8 @@ java -jar \target\blogPlatform-0.0.1-SNAPSHOT.jar
 
 The service layer of the "BlogPlatform" application has **100% unit test coverage**. This means that every method and code path in the service layer is thoroughly tested, ensuring the correctness of the application's core functionality
 
+![Test Coverage](TestCoverage.png)
+
 ## License
 This project is licensed under the MIT License. See the ```LICENSE``` file for more information.
 
