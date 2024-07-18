@@ -98,7 +98,7 @@ PATCH /authors/changeArticle?nickname=${nickname}&oldTitle=${oldTitle}&newTitle=
   git clone https://github.com/BlackDaddy220232/blog-platform.git
 ```
 
-### 2. Automical Installation
+### 2. Automical Installation (Windows)
 
 #### 1. Navigate into the cloned directory
 ```bash
@@ -117,15 +117,17 @@ Setup.bat
 
 #### 3. Choose ```create``` or ```create-drop``` in the field ```spring.jpa.hibernate.ddl-auto```.
 
-#### 4. Navigate to the project directory
+#### 4. Open pgAdmin and create database with name ```BlogPlatform```
+
+#### 5. Navigate to the project directory
 ```bash
 cd \blog-platform\blogPlatform
 ```
-#### 5. Execute the Maven command to clean the project and then build it
+#### 6. Execute the Maven command to clean the project and then build it
 ```bash
 mvn clean install
 ```
-#### 6. run the application using the following Java command:
+#### 7. run the application using the following Java command:
 ```bash
 java -jar \target\blogPlatform-0.0.1-SNAPSHOT.jar
 ```
