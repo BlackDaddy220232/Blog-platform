@@ -21,7 +21,6 @@ public class Author {
   @Column(name = "nickname")
   private String nickname;
 
-  private int countArticle;
 
   @OneToMany(
       mappedBy = "author",

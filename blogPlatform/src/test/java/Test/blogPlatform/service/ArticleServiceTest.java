@@ -16,32 +16,32 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class ArticleServiceTest {
-    @Mock
-    private ArticleRepository articleRepository;
-    @InjectMocks
-    private ArticleService articleService;
-    @BeforeEach
-    public void setup(){
-        MockitoAnnotations.openMocks(this);
-    }
-    @Test
-    void testGetAllArticles() {
-        // Arrange
-        List<Article> expectedArticles = new ArrayList<>();
-        Article article1 = new Article();
-        article1.setTitle("Article 1");
-        Article article2 = new Article();
-        article2.setTitle("Article 2");
-        expectedArticles.add(article1);
-        expectedArticles.add(article2);
+  @Mock private ArticleRepository articleRepository;
+  @InjectMocks private ArticleService articleService;
 
-        when(articleRepository.findAll()).thenReturn(expectedArticles);
+  @BeforeEach
+  public void setup() {
+    MockitoAnnotations.openMocks(this);
+  }
 
-        // Act
-        List<Article> result = articleService.getAllArticles();
+  @Test
+  void testGetAllArticles() {
+    // Arrange
+    List<Article> expectedArticles = new ArrayList<>();
+    Article article1 = new Article();
+    article1.setTitle("Article 1");
+    Article article2 = new Article();
+    article2.setTitle("Article 2");
+    expectedArticles.add(article1);
+    expectedArticles.add(article2);
 
-        // Assert
-        assertEquals(expectedArticles, result);
-        verify(articleRepository, times(1)).findAll();
-    }
+    when(articleRepository.findAll()).thenReturn(expectedArticles);
+
+    // Act
+    List<Article> result = articleService.getAllArticles();
+
+    // Assert
+    assertEquals(expectedArticles, result);
+    verify(articleRepository, times(1)).findAll();
+  }
 }

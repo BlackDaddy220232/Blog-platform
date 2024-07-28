@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -40,85 +41,84 @@ public class AuthorService {
   private static final String ARTICLE_WAS_ADDED = "Article \"%s\" was added";
   private static final String ARTICLE_WAS_DELETED = "Article \"%s\" was deleted";
   private static final String ARTICLE_WAS_RENAMED = "Article \"%s\" was renamed";
-  private static final String EMPTY_NICKNAME = "Nickname cannot be empty";
-  private static final String EMPTY_TITLE = "Title cannot be empty";
+  private static final String EMPTY_FIELD = "Fields cannot be empty";
 
-  /**
-   * Creates a new author with the given nickname.
-   *
-   * @param nickname The nickname of the new author.
-   * @return A success message indicating the author was created successfully.
-   * @throws AuthorTakenException If the author with the given nickname already exists.
-   * @throws IllegalArgumentException if the nickname is empty.
-   */
   public String createAuthor(String nickname) {
     if (Boolean.TRUE.equals(authorRepository.existsAuthorByNickname(nickname))) {
       throw new AuthorTakenException(String.format(AUTHOR_ALREADY_EXIST_MESSAGE, nickname));
-    } else {
-      if (Boolean.FALSE.equals(nickname.isEmpty())) {
-        Author author = new Author();
-        author.setNickname(nickname);
-        authorRepository.save(author);
-        return String.format(AUTHOR_CREATE_MESSAGE, nickname);
-      } else {
-        throw new IllegalArgumentException(String.format(EMPTY_NICKNAME));
-      }
     }
+    validateInput(nickname);
+    Author author = new Author();
+    author.setNickname(nickname);
+    authorRepository.save(author);
+    return String.format(AUTHOR_CREATE_MESSAGE, nickname);
   }
 
-  /**
-   * Deletes the author with the given nickname.
-   *
-   * @param nickname The nickname of the author to be deleted.
-   * @return A success message indicating the author was deleted successfully.
-   */
   public String deleteAuthor(String nickname) {
     Author author = getAuthorByNickname(nickname);
     authorRepository.delete(author);
     return String.format(AUTHOR_DELETE_MESSAGE, nickname);
   }
 
-  /**
-   * Retrieves a list of articles associated with the author having the given nickname.
-   *
-   * @param nickname The nickname of the author whose articles are to be retrieved.
-   * @return The list of articles associated with the author.
-   */
   public List<Article> getArticlesByAuthor(String nickname) {
-    Author author = getAuthorByNickname(nickname);
-    return author.getArticles();
+    return getAuthorByNickname(nickname).getArticles();
   }
 
-  /**
-   * Changes the nickname of an author.
-   *
-   * @param oldNickname The current nickname of the author.
-   * @param newNickname The new nickname to be assigned to the author.
-   * @return A success message indicating the nickname was changed successfully.
-   * @throws AuthorNotFoundException If the new nickname already exists.
-   * @throws IllegalArgumentException If the new nickname is empty.
-   */
   public String changeNickname(String oldNickname, String newNickname) {
-    if (Boolean.TRUE.equals(newNickname.isEmpty())) {
-      throw new IllegalArgumentException(EMPTY_NICKNAME);
-    }
+    validateInput(oldNickname, newNickname);
     Author author = getAuthorByNickname(oldNickname);
-    if (Boolean.FALSE.equals(authorRepository.existsAuthorByNickname(newNickname))) {
-      author.setNickname(newNickname);
-      authorRepository.save(author);
-      return String.format(CHANGE_NICKNAME, newNickname);
-    } else {
+    if (Boolean.TRUE.equals(authorRepository.existsAuthorByNickname(newNickname))) {
       throw new AuthorTakenException(String.format(AUTHOR_ALREADY_EXIST_MESSAGE, newNickname));
     }
+    author.setNickname(newNickname);
+    authorRepository.save(author);
+    return String.format(CHANGE_NICKNAME, newNickname);
   }
 
-  /**
-   * Retrieves the author with the given nickname from the database.
-   *
-   * @param nickname The nickname of the author to be retrieved.
-   * @return The author with the given nickname.
-   * @throws AuthorNotFoundException If the author with the given nickname does not exist.
-   */
+  public String createArticle(String title, String nickname) {
+    validateInput(title, nickname);
+    Author author = getAuthorByNickname(nickname);
+    if (author.getArticleByTitle(title) != null) {
+      throw new ArticleTakenException(String.format(ARTICLE_EXIST, title));
+    }
+    Article article = new Article();
+    article.setTitle(title);
+    article.setAuthor(author);
+    author.addArticle(article);
+    authorRepository.save(author);
+    return String.format(ARTICLE_WAS_ADDED, title);
+  }
+
+  public String deleteArticle(String title, String nickname) {
+    Author author = getAuthorByNickname(nickname);
+    Article article = author.getArticleByTitle(title);
+    if (article == null) {
+      throw new ArticleNotFoundException(String.format(ARTICLE_DOES_NOT_EXIST, title));
+    }
+    author.getArticles().removeIf(p -> p.getTitle().equals(title));
+    articleRepository.delete(article);
+    authorRepository.save(author);
+    return String.format(ARTICLE_WAS_DELETED, title);
+  }
+
+  public String changeArticlesTitle(String nickname, String oldTitle, String newTitle) {
+    validateInput(nickname, oldTitle, newTitle);
+    Author author = getAuthorByNickname(nickname);
+    Article article = getArticleByTitle(author, oldTitle);
+    if (author.getArticleByTitle(newTitle) != null) {
+      throw new ArticleTakenException(String.format(ARTICLE_EXIST, newTitle));
+    }
+    article.setTitle(newTitle);
+    articleRepository.save(article);
+    return String.format(ARTICLE_WAS_RENAMED, newTitle);
+  }
+
+  private void validateInput(String... inputs) {
+    if (Boolean.TRUE.equals(Arrays.stream(inputs).anyMatch(String::isEmpty))) {
+      throw new IllegalArgumentException(EMPTY_FIELD);
+    }
+  }
+
   private Author getAuthorByNickname(String nickname) {
     return authorRepository
         .findAuthorByNickname(nickname)
@@ -128,78 +128,10 @@ public class AuthorService {
                     String.format(AUTHOR_DOES_NOT_EXIST_MESSAGE, nickname)));
   }
 
-  /**
-   * Creates a new article with the given title and associates it with the author having the
-   * provided nickname.
-   *
-   * @param title The title of the new article.
-   * @param nickname The nickname of the author to whom the article will be associated.
-   * @return A success message indicating the article was created successfully.
-   * @throws ArticleTakenException If the article with the given title already exists.
-   * @throws IllegalArgumentException If title of article is empty.
-   */
-  public String createArticle(String title, String nickname) {
-    Author author = getAuthorByNickname(nickname);
-    if (author.getArticleByTitle(title) != null) {
-      throw new ArticleTakenException(String.format(ARTICLE_EXIST, title));
-    }
-    if (Boolean.TRUE.equals(title.isEmpty())) {
-      throw new IllegalArgumentException(String.format(EMPTY_TITLE, title));
-    } else {
-      Article article = new Article();
-      article.setTitle(title);
-      article.setAuthor(author);
-      author.addArticle(article);
-      authorRepository.save(author);
-      return String.format(ARTICLE_WAS_ADDED, title);
-    }
-  }
-
-  /**
-   * Deletes the article with the given title, associated with the author having the provided
-   * nickname.
-   *
-   * @param title The title of the article to be deleted.
-   * @param nickname The nickname of the author whose article is to be deleted.
-   * @return A success message indicating the article was deleted successfully.
-   * @throws ArticleNotFoundException If the article with the given title does not exist.
-   */
-  public String deleteArticle(String title, String nickname) {
-    Author author = getAuthorByNickname(nickname);
-    Article article = author.getArticleByTitle(title);
-    if (article == null) {
-      throw new ArticleNotFoundException(String.format(ARTICLE_DOES_NOT_EXIST, title));
-    } else {
-      author.getArticles().removeIf(p -> p.getTitle().equals(title));
-      articleRepository.delete(article);
-      authorRepository.save(author);
-      return String.format(ARTICLE_WAS_DELETED, title);
-    }
-  }
-
-  /**
-   * Changes the title of an article associated with the author having the provided nickname.
-   *
-   * @param nickname The nickname of the author whose article is to be renamed.
-   * @param oldTitle The current title of the article.
-   * @param newTitle The new title to be assigned to the article.
-   * @return A success message indicating the article was renamed successfully.
-   * @throws ArticleNotFoundException If the article with the given old title does not exist, or if
-   *     the new title already exists.
-   * @throws ArticleTakenException If article is taken and not available
-   */
-  public String changeArticlesTitle(String nickname, String oldTitle, String newTitle) {
-    Author author = getAuthorByNickname(nickname);
-    Article article = author.getArticleByTitle(oldTitle);
-    if (article == null) {
-      throw new ArticleNotFoundException(String.format(ARTICLE_DOES_NOT_EXIST, oldTitle));
-    }
-    if (author.getArticleByTitle(newTitle) == null) {
-      article.setTitle(newTitle);
-      articleRepository.save(article);
-      return String.format(ARTICLE_WAS_RENAMED, newTitle);
-    } else {
-      throw new ArticleTakenException(String.format(ARTICLE_EXIST, newTitle));
-    }
+  private Article getArticleByTitle(Author author, String title) {
+    return articleRepository
+        .findArticleByAuthorAndTitle(author, title)
+        .orElseThrow(
+            () -> new ArticleNotFoundException(String.format(ARTICLE_DOES_NOT_EXIST, title)));
   }
 }

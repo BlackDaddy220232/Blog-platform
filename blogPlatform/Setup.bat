@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 @echo off
 setlocal EnableDelayedExpansion
 
@@ -84,4 +83,3 @@ java -jar target/blogPlatform-0.0.1-SNAPSHOT.jar
 echo Application started.
 
 pause
->>>>>>> origin/main

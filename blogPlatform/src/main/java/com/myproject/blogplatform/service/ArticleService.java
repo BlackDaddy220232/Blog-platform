@@ -18,11 +18,6 @@ public class ArticleService {
     this.articleRepository = articleRepository;
   }
 
-  /**
-   * This method retrieves all the articles stored in the article repository.
-   *
-   * @return a list of all the articles
-   */
   public List<Article> getAllArticles() {
     return articleRepository.findAll();
   }
