@@ -13,6 +13,7 @@ This project is integrated with the Sonor Cloud platform, which provides advance
 [Link](https://sonarcloud.io/summary/overall?id=BlackDaddy220232_blog-platform) to Sonar;
 
 ## API Reference
+### Postman
 To interact with the "BlogPlatform" application's RESTful API endpoints, you can use the Postman request by this [link](https://www.postman.com/material-saganist-75818563/workspace/blog-platform/collection/33191456-0c709e2f-bc90-44a4-94b9-b5cb680995df?action=share&creator=33191456). Tap ```create a fork``` and use Postman for doing request.
 #### Get all author's articles
 
@@ -97,13 +98,17 @@ PATCH /authors/changeArticle?nickname=${nickname}&oldTitle=${oldTitle}&newTitle=
   git clone https://github.com/BlackDaddy220232/blog-platform.git
 ```
 
-### 2. Automical Installation
+### 2. Automical Installation (Windows)
 
-#### 1. Launch ```Setup.bat``` with Command Line
+#### 1. Navigate into the cloned directory
 ```bash
-...\blog-platform\blogPlatform\Setup.bat
+cd blog-platform\blogPlatform
 ```
-#### 2. Input your PostgreSQL ``username`` and ``password`` and enjoy!
+#### 2. Launch ```Setup.bat```
+```bash
+Setup.bat
+```
+#### 3. Input your PostgreSQL ``username`` and ``password`` and enjoy!
 
 ### 2. Manual Installation
 
@@ -112,15 +117,17 @@ PATCH /authors/changeArticle?nickname=${nickname}&oldTitle=${oldTitle}&newTitle=
 
 #### 3. Choose ```create``` or ```create-drop``` in the field ```spring.jpa.hibernate.ddl-auto```.
 
-#### 4. Navigate to the project directory
+#### 4. Open pgAdmin and create database with name ```BlogPlatform```
+
+#### 5. Navigate to the project directory
 ```bash
-\blog-platform\blogPlatform
+cd \blog-platform\blogPlatform
 ```
-#### 5. Execute the Maven command to clean the project and then build it
+#### 6. Execute the Maven command to clean the project and then build it
 ```bash
 mvn clean install
 ```
-#### 6. run the application using the following Java command:
+#### 7. run the application using the following Java command:
 ```bash
 java -jar \target\blogPlatform-0.0.1-SNAPSHOT.jar
 ```
