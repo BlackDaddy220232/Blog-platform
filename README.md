@@ -98,7 +98,7 @@ PATCH /authors/changeArticle?nickname=${nickname}&oldTitle=${oldTitle}&newTitle=
   git clone https://github.com/BlackDaddy220232/blog-platform.git
 ```
 
-### 2. Automical Installation (Windows)
+### 2. Automatical Installation (Windows)
 
 #### 1. Navigate into the cloned directory
 ```bash
